@@ -10,19 +10,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "get_next_line.h" 
+#include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*extract_line(char **buf)
 {
-  int  bytes_read;
-  char *cup_buffer;
-  
-  cup_buffer = ft_calloc (3 + 1, sizeof(char));
-  if (cup_buffer == NULL)
-	return (NULL);
-  bytes_read = read(fd, cup_buffer, 3);
-  if (bytes_read <= 0)
-  return (NULL);
-  return (cup_buffer);
+	char	*line;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	if (!*buf || !**buf)
+		return (NULL);
+	while ((*buf)[i] && (*buf)[i] != '\n')
+		i++;
+	line = malloc(i + 2);
+	if (!line)
+		return (NULL);
+	i = 0;
+	while ((*buf)[i] && (*buf)[i] != '\n')
+	{
+		line[i] = (*buf)[i];
+		i++;
+	}
+	if ((*buf)[i] == '\n')
+		line[i++] = '\n';
+	line[i] = 0;
+	tmp = ft_strdup(*buf + i);
+	free(*buf);
+	*buf = tmp;
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		tmp_buffer[BUFFER_SIZE + 1];
+	ssize_t		read_bytes;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	read_bytes = 1;
+	while (ft_strchr(buffer, '\n') == NULL && read_bytes > 0)
+	{
+		read_bytes = read(fd, tmp_buffer, BUFFER_SIZE);
+		if (read_bytes < 0)
+		{
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
+		tmp_buffer[read_bytes] = '\0';
+		buffer = ft_strjoin(buffer, tmp_buffer);
+	}
+	return (extract_line(&buffer));
 }
