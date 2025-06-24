@@ -44,24 +44,26 @@ char	*extract_line(char **buf)
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	char		tmp_buffer[BUFFER_SIZE + 1];
 	ssize_t		read_bytes;
+	char		temp_buffer[BUFFER_SIZE + 1];
+	char		*temp_joined;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		buffer = ft_strdup("");
 	read_bytes = 1;
-	while (ft_strchr(buffer, '\n') == NULL && read_bytes > 0)
+	while (!ft_strchr(buffer, '\n') && read_bytes > 0)
 	{
-		read_bytes = read(fd, tmp_buffer, BUFFER_SIZE);
+		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
 		if (read_bytes < 0)
-		{
-			free(buffer);
-			buffer = NULL;
+			return (free(buffer), buffer = NULL, NULL);
+		temp_buffer[read_bytes] = '\0';
+		temp_joined = ft_strjoin(buffer, temp_buffer);
+		free(buffer);
+		buffer = temp_joined;
+		if (!buffer)
 			return (NULL);
-		}
-		tmp_buffer[read_bytes] = '\0';
-		buffer = ft_strjoin(buffer, tmp_buffer);
 	}
 	return (extract_line(&buffer));
 }
