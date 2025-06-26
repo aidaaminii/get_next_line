@@ -6,7 +6,7 @@
 /*   By: aamini <aamini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:41 by aamini            #+#    #+#             */
-/*   Updated: 2025/06/06 13:38:33 by aamini           ###   ########.fr       */
+/*   Updated: 2025/06/26 20:03:18 by aamini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ int	main(void)
 	next_line = get_next_line(fd);
 	while (next_line != NULL)
 	{
-		printf("[%d]:%s", count, next_line);
+		printf("%d , %s",count , next_line);
 		count++;
+		free(next_line);
+		next_line = NULL;
 		next_line = get_next_line(fd);
 	}
 	free(next_line);
-	next_line = NULL;
 	close(fd);
 	return (0);
 }

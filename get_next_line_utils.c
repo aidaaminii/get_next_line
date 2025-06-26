@@ -6,7 +6,7 @@
 /*   By: aamini <aamini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 14:34:51 by aamini            #+#    #+#             */
-/*   Updated: 2025/06/06 13:35:40 by aamini           ###   ########.fr       */
+/*   Updated: 2025/06/25 17:12:37 by aamini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(char const *str)
 	size_t	count;
 
 	count = 0;
+	if (!str)
+		return (0);
 	while (str[count] != '\0')
 	{
 		count ++;
@@ -32,6 +34,8 @@ char	*ft_strdup(const char *src)
 
 	i = 0;
 	size = ft_strlen(src);
+	if (!src)
+		return (ft_strdup(""));
 	copy = (char *)malloc(size + 1);
 	if (!copy)
 		return (0);
@@ -49,6 +53,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	i;
 	size_t	j;
 
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
 	if (!s1 || !s2)
 		return (NULL);
 	joined = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
