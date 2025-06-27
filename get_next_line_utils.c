@@ -12,88 +12,58 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char const *str)
+int	find_newline(char *str)
 {
-	size_t	count;
+	int	pos;
 
-	count = 0;
+	pos = 0;
+	if (!str)
+		return (-1);
+	while (str[pos])
+	{
+		if (str[pos] == '\n')
+			return (pos);
+		pos++;
+	}
+	return (-1);
+}
+
+int	count_chars(char *str)
+{
+	int	counter;
+
+	counter = 0;
 	if (!str)
 		return (0);
-	while (str[count] != '\0')
-	{
-		count ++;
-	}
-	return (count);
+	while (str[counter])
+		counter++;
+	return (counter);
 }
 
-char	*ft_strdup(const char *src)
+char	*merge_text(char *old_text, char *new_text)
 {
+	char	*result;
 	int		size;
 	int		i;
-	char	*copy;
+	int		j;
 
-	i = 0;
-	size = ft_strlen(src);
-	if (!src)
-		return (ft_strdup(""));
-	copy = (char *)malloc(size + 1);
-	if (!copy)
-		return (0);
-	while (i < size + 1)
+	if (!old_text)
 	{
-		copy[i] = src[i];
-		i ++;
+		old_text = malloc(1);
+		if (!old_text)
+			return (NULL);
+		old_text[0] = '\0';
 	}
-	return (copy);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*joined;
-	size_t	i;
-	size_t	j;
-
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	if (!s1 || !s2)
+	size = count_chars(old_text) + count_chars(new_text);
+	result = malloc(size + 1);
+	if (!result)
 		return (NULL);
-	joined = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!joined)
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		joined[i] = s1[i];
-		i++;
-	}
+	i = -1;
+	while (old_text[++i])
+		result[i] = old_text[i];
 	j = 0;
-	while (s2[j] != '\0')
-	{
-		joined[i + j] = s2[j];
-		j++;
-	}
-	joined[i + j] = '\0';
-	return (joined);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int		i;
-	char	*str;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	str = (char *)s;
-	while (str[i] != '\0')
-	{
-		if ((unsigned char)str[i] == (unsigned char)c)
-			return (str + i);
-		i++;
-	}
-	if ((unsigned char)c == '\0')
-		return (str + i);
-	return (NULL);
+	while (new_text[j])
+		result[i++] = new_text[j++];
+	result[i] = '\0';
+	return (result);
 }
