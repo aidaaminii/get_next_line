@@ -27,6 +27,7 @@ static char	*read_from_fd(int fd, char *backup)
 		if (bytes == -1)
 		{
 			free(temp);
+			free(backup);
 			return (NULL);
 		}
 		temp[bytes] = '\0';
