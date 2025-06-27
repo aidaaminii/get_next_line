@@ -46,13 +46,16 @@ char	*merge_text(char *old_text, char *new_text)
 	int		size;
 	int		i;
 	int		j;
+	int     need_free;
 
+	need_free = 0;
 	if (!old_text)
 	{
 		old_text = malloc(1);
 		if (!old_text)
 			return (NULL);
 		old_text[0] = '\0';
+		need_free = 1;
 	}
 	size = count_chars(old_text) + count_chars(new_text);
 	result = malloc(size + 1);
@@ -65,5 +68,7 @@ char	*merge_text(char *old_text, char *new_text)
 	while (new_text[j])
 		result[i++] = new_text[j++];
 	result[i] = '\0';
+	if (need_free)
+        free(old_text);
 	return (result);
 }
