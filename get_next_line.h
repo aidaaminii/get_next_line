@@ -18,13 +18,12 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1024
 # endif
 
 char	*get_next_line(int fd);
-char 	*update_buffer(char *buffer);
+char	*update_buffer(char *buffer);
 char	*extract_line(char *buffer);
-// static char	*ft_free(char **ptr);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);

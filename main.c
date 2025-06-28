@@ -30,7 +30,7 @@ int	main(void)
 	next_line = get_next_line(fd);
 	while (next_line != NULL)
 	{
-		printf("%d , %s",count , next_line);
+		printf("%d , %s", count, next_line);
 		count++;
 		free(next_line);
 		next_line = NULL;
