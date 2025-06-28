@@ -112,15 +112,31 @@ char	*get_next_line(int fd)
 		return (NULL);
 	read_buf = (char *)malloc(BUFFER_SIZE + 1);
 	if (!read_buf)
-		return (free(buffer), NULL);
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
 	bytes_read = 1;
 	while (!ft_strchr(buffer, '\n') && bytes_read > 0)
 	{
 		bytes_read = read(fd, read_buf, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (free(read_buf), free(buffer), NULL);
+		{
+			free(read_buf);
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
 		read_buf[bytes_read] = '\0';
 		temp = ft_strjoin(buffer, read_buf);
+		if (!temp)
+		{
+			free(read_buf);
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
 		free(buffer);
 		buffer = temp;
 	}
