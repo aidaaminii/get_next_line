@@ -12,17 +12,22 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
-# include <stdlib.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
 char	*get_next_line(int fd);
-int		find_newline(char *str);
-int		count_chars(char *str);
-char	*merge_text(char *old_text, char *new_text);
+char 	*update_buffer(char *buffer);
+char	*extract_line(char *buffer);
+// static char	*ft_free(char **ptr);
+char	*ft_strdup(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlen(const char *s);
 
 #endif

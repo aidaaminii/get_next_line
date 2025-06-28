@@ -12,63 +12,88 @@
 
 #include "get_next_line.h"
 
-int	find_newline(char *str)
+size_t	ft_strlen(char const *str)
 {
-	int	pos;
+	size_t	count;
 
-	pos = 0;
-	if (!str)
-		return (-1);
-	while (str[pos])
-	{
-		if (str[pos] == '\n')
-			return (pos);
-		pos++;
-	}
-	return (-1);
-}
-
-int	count_chars(char *str)
-{
-	int	counter;
-
-	counter = 0;
+	count = 0;
 	if (!str)
 		return (0);
-	while (str[counter])
-		counter++;
-	return (counter);
+	while (str[count] != '\0')
+	{
+		count ++;
+	}
+	return (count);
 }
 
-char	*merge_text(char *old_text, char *new_text)
+char	*ft_strdup(const char *src)
 {
-	char	*result;
 	int		size;
 	int		i;
-	int		j;
-	int     need_free;
+	char	*copy;
 
-	need_free = 0;
-	if (!old_text)
+	i = 0;
+	size = ft_strlen(src);
+	if (!src)
+		return (ft_strdup(""));
+	copy = (char *)malloc(size + 1);
+	if (!copy)
+		return (0);
+	while (i < size + 1)
 	{
-		old_text = malloc(1);
-		if (!old_text)
-			return (NULL);
-		old_text[0] = '\0';
-		need_free = 1;
+		copy[i] = src[i];
+		i ++;
 	}
-	size = count_chars(old_text) + count_chars(new_text);
-	result = malloc(size + 1);
-	if (!result)
+	return (copy);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*joined;
+	size_t	i;
+	size_t	j;
+
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	if (!s1 || !s2)
 		return (NULL);
-	i = -1;
-	while (old_text[++i])
-		result[i] = old_text[i];
+	joined = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!joined)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		joined[i] = s1[i];
+		i++;
+	}
 	j = 0;
-	while (new_text[j])
-		result[i++] = new_text[j++];
-	result[i] = '\0';
-	if (need_free)
-        free(old_text);
-	return (result);
+	while (s2[j] != '\0')
+	{
+		joined[i + j] = s2[j];
+		j++;
+	}
+	joined[i + j] = '\0';
+	return (joined);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	str = (char *)s;
+	while (str[i] != '\0')
+	{
+		if ((unsigned char)str[i] == (unsigned char)c)
+			return (str + i);
+		i++;
+	}
+	if ((unsigned char)c == '\0')
+		return (str + i);
+	return (NULL);
 }
